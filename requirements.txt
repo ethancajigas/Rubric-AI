@@ -1,0 +1,9 @@
+Flask
+openai==0.28.0
+pytesseract
+pdf2image
+PyMuPDF
+Pillow
+psycopg2
+Werkzeug
+python-dotenv
