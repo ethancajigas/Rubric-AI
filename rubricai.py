@@ -23,12 +23,9 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def get_db_connection():
-    return psycopg2.connect(
-        dbname=os.getenv("DATABASE_NAME"),
-        user=os.getenv("DATABASE_USER"),
-        password=os.getenv("DATABASE_PASSWORD"),
-        host=os.getenv("DATABASE_HOST", "localhost")
-    )
+    db_url = os.getenv("DATABASE_URL")  # Retrieve DATABASE_URL from environment variables
+    return psycopg2.connect(db_url)
+
 
 def send_email(sender_email, recipient_email, subject, body):
     try:
