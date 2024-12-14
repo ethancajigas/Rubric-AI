@@ -192,28 +192,86 @@
       text-decoration: underline;
     }
 
-    @media screen and (max-width: 768px) {
-        .header {
-            flex-direction: column;
-            padding: 10px;
-        }
+    /* Hide Hamburger Menu */
+    .hamburger-menu {
+        display: none; /* Hidden on desktop */
+    }
 
-        .header .logo-container {
-            margin-left: 0;
-            margin-bottom: 10px;
+    /* Hide Mobile Menu */
+    .mobile-menu {
+        display: none; /* Hidden by default */
+    }
+
+    @media screen and (max-width: 768px) {
+        /* Header and Navigation Styles */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .header .header-buttons {
-            margin-right: 0;
-            gap: 10px;
+            display: none;
+        }
+
+        .header .logo-container {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
         }
 
         .header .logo-container img {
             height: 40px;
+            margin-right: 10px;
         }
 
         .header .logo-container .title {
             font-size: 18px;
+            color: #ffffff;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            display: block;
+            cursor: pointer;
+            z-index: 1100;
+            margin-right: 20px;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 5px 0;
+            transition: 0.4s;
+        }
+
+        .mobile-menu {
+            display: flex; /* Change from none to flex */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #383838;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%); /* Initially off-screen */
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0); /* Slide in when active */
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 15px 0;
+            font-family: "Montserrat", sans-serif;
         }
 
         .header .header-button {
@@ -223,36 +281,57 @@
         .signup-container {
             width: 90%;
             max-width: none;
-            padding-top: 25%;
-            margin: 80px auto 0;
+            padding: 20px; /* Adjust padding for better spacing */
+            text-align: left; /* Keep text aligned to the left */
         }
 
         .signup-container h1 {
-            font-size: 28px;
+            font-size: 24px;
             margin-bottom: 15px;
+            text-align: center; /* Center the heading */
         }
 
         .form-group {
-            margin-right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align form elements to the left */
+            width: 100%;
+            margin-bottom: 15px;
         }
 
         .form-group label {
             font-size: 16px;
+            text-align: left;
         }
 
         .form-group input {
             font-size: 16px;
             padding: 15px 10px;
+            width: 100%; /* Make inputs responsive */
+            box-sizing: border-box; /* Ensure padding is included in width */
         }
 
         .signup-button {
             font-size: 15px;
             padding: 15px 10px;
+            width: 100%; /* Ensure the button matches input size */
+            margin-top: 15px;
+            background-color: #5bb0d4; /* Optional: Add a button background color */
+            color: #fff; /* Optional: White text for contrast */
+            border: none; /* Optional: Remove button border */
+            border-radius: 8px; /* Optional: Match container's rounded corners */
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .signup-button:hover {
+            background-color: #53a3c5; /* Optional: Add hover effect */
         }
 
         .signup-footer {
             font-size: 13px;
             text-align: center;
+            margin-top: 15px;
         }
 
         .footer {
@@ -308,17 +387,31 @@
   </style>
 </head>
 <body>
-    <header class="header">
-        <div class="logo-container">
-            <img src="{{ url_for('static', filename='rubricai_logo.png') }}" alt="Logo">
-            <div class="title">Rubric AI</div>
-        </div>
-        <div class="header-buttons">
-            <a href="/editor" class="header-button">Editor</a>
-            <a href="/login" class="header-button">Login</a>
-            <a href="/signup" class="header-button">Sign Up</a>
-        </div>
-    </header>
+  <header class="header">
+      <div class="logo-container">
+          <img src="{{ url_for('static', filename='rubricai_logo.png') }}" alt="Logo">
+          <div class="title">Rubric AI</div>
+      </div>
+      <div class="header-buttons">
+          <a href="/editor" class="header-button">Editor</a>
+          <a href="/login" class="header-button">Login</a>
+          <a href="/signup" class="header-button">Sign Up</a>
+      </div>
+
+      <!-- Hamburger Menu -->
+      <div class="hamburger-menu">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="mobile-menu">
+          <a href="/editor">Editor</a>
+          <a href="/login">Login</a>
+          <a href="/signup">Sign Up</a>
+      </div>
+  </header>
 
   <div class="signup-container">
     <h1>Sign Up</h1>
@@ -353,6 +446,43 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    // Hamburger Menu
+    document.addEventListener('DOMContentLoaded', () => {
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        if (hamburgerMenu && mobileMenu) {
+            hamburgerMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Toggle classes
+                mobileMenu.classList.toggle('active');
+                hamburgerMenu.classList.toggle('menu-open');
+            });
+
+            // Close menu when a link is clicked
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    hamburgerMenu.classList.remove('menu-open');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (mobileMenu.classList.contains('active') && 
+                    !mobileMenu.contains(e.target) && 
+                    !hamburgerMenu.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                    hamburgerMenu.classList.remove('menu-open');
+                }
+            });
+        }
+    });
+  </script>
 
 </body>
 </html>

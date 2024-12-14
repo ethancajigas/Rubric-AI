@@ -159,6 +159,7 @@
     .section-subtitle {
       font-size: 14px;
       color: #888888;
+      margin-top: -10px;
     }
 
     .logout-button {
@@ -171,6 +172,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: background-color 0.2s;
+      margin-top: 10px;
     }
 
     .logout-button:hover {
@@ -182,21 +184,87 @@
       color: #cccccc;
     }
 
+    /* Hide Hamburger Menu */
+    .hamburger-menu {
+        display: none; /* Hidden on desktop */
+    }
+
+    /* Hide Mobile Menu */
+    .mobile-menu {
+        display: none; /* Hidden by default */
+    }
+
     /* Add these responsive styles */
     @media screen and (max-width: 768px) {
+        /* Header and Navigation Styles */
         .header {
-            flex-direction: column;
-            padding: 10px;
-        }
-
-        .header .logo-container {
-            margin-left: 0;
-            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .header .header-buttons {
-            margin-right: 0;
-            gap: 10px;
+            display: none;
+        }
+
+        .header .logo-container {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .header .logo-container img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header .logo-container .title {
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            display: block;
+            cursor: pointer;
+            z-index: 1100;
+            margin-right: 20px;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 5px 0;
+            transition: 0.4s;
+        }
+
+        .mobile-menu {
+            display: flex; /* Change from none to flex */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #383838;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%); /* Initially off-screen */
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0); /* Slide in when active */
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 15px 0;
+            font-family: "Montserrat", sans-serif;
         }
 
         .account-container {
@@ -234,21 +302,39 @@
   </style>
 </head>
 <body>
-    <header class="header">
-        <div class="logo-container">
-            <img src="{{ url_for('static', filename='rubricai_logo.png') }}" alt="Logo">
-            <div class="title">Rubric AI</div>
-        </div>
-        <div class="header-buttons">
-            {% if session['user_email'] %}
-                <a href="/user_editor" class="header-button">Editor</a>
-                <a href="/account" class="header-button">Account</a>
-            {% else %}
-                <a href="/login" class="header-button">Login</a>
-                <a href="/signup" class="header-button">Sign Up</a>
-            {% endif %}
-        </div>
-    </header> 
+  <header class="header">
+      <div class="logo-container">
+          <img src="{{ url_for('static', filename='rubricai_logo.png') }}" alt="Logo">
+          <div class="title">Rubric AI</div>
+      </div>
+      <div class="header-buttons">
+          {% if session['user_email'] %}
+              <a href="/user_editor" class="header-button">Editor</a>
+              <a href="/account" class="header-button">Account</a>
+          {% else %}
+              <a href="/login" class="header-button">Login</a>
+              <a href="/signup" class="header-button">Sign Up</a>
+          {% endif %}
+      </div>
+
+      <!-- Hamburger Menu -->
+      <div class="hamburger-menu">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="mobile-menu">
+          {% if session['user_email'] %}
+              <a href="/user_editor">Editor</a>
+              <a href="/account">Account</a>
+          {% else %}
+              <a href="/login">Login</a>
+              <a href="/signup">Sign Up</a>
+          {% endif %}
+      </div>
+  </header> 
 
     
   <div class="account-container">
@@ -315,6 +401,41 @@
         console.error('Logout failed:', error);
       });
     }
+
+    // Hamburger Menu
+    document.addEventListener('DOMContentLoaded', () => {
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        if (hamburgerMenu && mobileMenu) {
+            hamburgerMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Toggle classes
+                mobileMenu.classList.toggle('active');
+                hamburgerMenu.classList.toggle('menu-open');
+            });
+
+            // Close menu when a link is clicked
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    hamburgerMenu.classList.remove('menu-open');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (mobileMenu.classList.contains('active') && 
+                    !mobileMenu.contains(e.target) && 
+                    !hamburgerMenu.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                    hamburgerMenu.classList.remove('menu-open');
+                }
+            });
+        }
+    });
   </script>
 
 
