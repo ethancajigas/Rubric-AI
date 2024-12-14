@@ -181,6 +181,56 @@
       font-size: 14px;
       color: #cccccc;
     }
+
+    /* Add these responsive styles */
+    @media screen and (max-width: 768px) {
+        .header {
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .header .logo-container {
+            margin-left: 0;
+            margin-bottom: 10px;
+        }
+
+        .header .header-buttons {
+            margin-right: 0;
+            gap: 10px;
+        }
+
+        .account-container {
+            width: 90%;
+            max-width: none;
+            padding-top: 25%;
+            margin: 80px auto 0;
+        }
+
+        .account-title {
+            font-size: 28px;
+        }
+
+        .account-section {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .account-section form {
+            margin-top: 15px;
+        }
+
+        .footer-content {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .footer-right {
+            margin-top: 10px;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+    }
   </style>
 </head>
 <body>

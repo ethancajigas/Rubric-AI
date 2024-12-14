@@ -9,51 +9,53 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Inter', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #e9e9e9;
+      background-color: #f7f7f7;
+      min-height: 100vh;
+      flex-direction: column;
     }
 
 
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between; /* This will push logo to left, buttons to right */
-        background-color: #383838;
-        padding: 10px 20px;
-        border-bottom: 2px solid #ddd;
-        width: 100%;
-        position: fixed;
-        z-index: 1000;
-        top: 0;
+   /* Header */
+   .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* This will push logo to left, buttons to right */
+      background-color: #383838;
+      padding: 10px 20px;
+      width: 100%;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
     }
 
     .header .header-buttons {
-        display: flex;
-        align-items: center;
-        gap: 20px; /* Space between buttons */
-        margin-right: 7%;
-        position: static;
-        right: auto;
+      display: flex;
+      align-items: center;
+      gap: 20px; /* Space between buttons */
+      margin-right: 7%;
+      position: static;
+      right: auto;
     }
-
+    
     .header .header-button {
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        padding: 5px 10px;
-        transition: color 0.5s ease;
-        font-family: "Montserrat", sans-serif;
-        color: #fff;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 600;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 5px 10px;
+      transition: color 0.5s ease;
+      font-family: "Montserrat", sans-serif;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .header .header-button:hover {
-        color: #5bb0d4;
+      color: #5bb0d4;
     }
 
     .header .logo-container {
@@ -72,7 +74,8 @@
       font-size: 24px;
       color: #ffffff;
     }
-
+    
+    /* Footer */
     .footer {
       background-color: #383838;
       color: #ffffff;
@@ -125,20 +128,6 @@
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       overflow: hidden;
-    }
-     /* Media Queries for Smaller Screens */
-    @media (max-width: 768px) {
-        .container {
-            width: 90%; /* Adjust width for tablet and smaller devices */
-            height: 600px; /* Reduce height for smaller screens */
-        }
-    }
-
-    @media (max-width: 480px) {
-        .container {
-            width: 90%; /* Keep width as a percentage for very small screens */
-            height: 500px; /* Further reduce height for small screens */
-        }
     }
 
     .container-header {
@@ -243,17 +232,17 @@
 
     /* Section title with icon alignment */
     h3 {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    color: #333;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #333;
     }
 
     .section-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
-    flex-shrink: 0; /* Prevent the icon from shrinking */
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      flex-shrink: 0; /* Prevent the icon from shrinking */
     }
     
     .section-header {
@@ -269,29 +258,29 @@
     }
 
     .right-section-icon {
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
     }
 
     /* Upload button with icon alignment */
     .upload-btn {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    color: #555;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center; /* Ensure icon and text are aligned */
-    gap: 5px; /* Space between icon and text */
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: #555;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center; /* Ensure icon and text are aligned */
+      gap: 5px; /* Space between icon and text */
     }
 
     .upload-icon {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0; /* Prevent the icon from shrinking */
-    margin-left: 10px;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0; /* Prevent the icon from shrinking */
+      margin-left: 10px;
     }
 
     .analyze-btn {
@@ -313,20 +302,20 @@
       background-color: #3f8935;
     }
     table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
     }
 
     th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
     }
 
     th {
-    background-color: #f5f5f5;
-    font-weight: bold;
+      background-color: #f5f5f5;
+      font-weight: bold;
     }
 
     .container-body .right-content {
@@ -335,16 +324,17 @@
       flex-direction: column; /* Arrange content vertically */
       justify-content: flex-start; /* Keep text content at the top */
       align-items: flex-start; /* Align text to the left */
-      padding: 20px;
+      padding: 10px;
       text-align: left;
       font-size: 16px;
       font-weight: normal;
       color: #333;
       overflow-y: auto;
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
+      background-color: #ffffff;
+      border: none;
       position: relative; /* Required for the absolute positioning of loading-container */
-  }
+    }
+
     #loading-container {
       display: none; /* Initially hidden */
       position: absolute; /* Positioned relative to the right-content div */
@@ -354,7 +344,244 @@
       text-align: center;
       z-index: 1; /* Ensure it's on top of other content */
       width: 100%; /* Optional: Adjust to fit within the parent container */
-  }
+    }
+    
+    /* HIDDEN MOBILE FEATURES ON DESKTOP */
+    .output-container {
+        display: none; /* Initially hidden */
+    }
+
+    /* Hide Hamburger Menu */
+    .hamburger-menu {
+        display: none; /* Hidden on desktop */
+    }
+
+    /* Hide Mobile Menu */
+    .mobile-menu {
+        display: none; /* Hidden by default */
+    }
+
+@media screen and (max-width: 768px) {
+    body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        margin-top: -40px;
+    }
+
+    /* Header and Navigation Styles */
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .header .header-buttons {
+        display: none;
+    }
+
+    .header .logo-container {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+
+    .header .logo-container img {
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    .header .logo-container .title {
+        font-size: 18px;
+        color: #ffffff;
+    }
+
+    /* Hamburger Menu Styles */
+    .hamburger-menu {
+        display: block;
+        cursor: pointer;
+        z-index: 1100;
+        margin-right: 20px;
+    }
+
+    .hamburger-line {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        margin: 5px 0;
+        transition: 0.4s;
+    }
+
+    .mobile-menu {
+        display: flex; /* Change from none to flex */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #383838;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        transition: transform 0.3s ease-in-out;
+        transform: translateX(100%); /* Initially off-screen */
+    }
+
+    .mobile-menu.active {
+        transform: translateX(0); /* Slide in when active */
+    }
+
+    .mobile-menu a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        margin: 15px 0;
+        font-family: "Montserrat", sans-serif;
+    }
+
+    /* Responsive Typography and Layout */
+    div[style*="width: 1500px"],
+    div[style*="width: 1200px"],
+    div[style*="width: 70%"] {
+        width: 95% !important;
+        max-width: 95% !important;
+    }
+
+    div[style*="width: 70%"] h1 {
+        font-size: 25px !important;
+    }
+
+    div[style*="width: 70%"] p {
+        font-size: 14px !important;
+    }
+
+    /* Container Adjustments */
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    .container-header {
+        align-items: center;
+        gap: 10px;
+    }
+
+
+    .container-header .header-left,
+    .container-header .header-center,
+    .container-header .header-right {
+        text-align: center;
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .container-body {
+        display: flex;
+        flex-direction: column; /* Stack the input and output vertically */
+    }
+
+    .output-container {
+        display: none; /* Hidden by default, will be shown dynamically */
+        width: 100%;
+        margin-top: 20px; /* Space between input and output */
+        padding: 15px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+
+    .container-body .left-content {
+        width: 100%;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .right-content {
+        padding: 0; /* Remove padding on mobile */
+        margin: 0; /* Ensure no extra margin exists */
+        background-color: white; /* Set white background */
+        border: none; /* Remove border */
+        box-shadow: none; /* Remove any box shadow if present */
+    }
+
+    /* Text Areas and Buttons */
+    .top-section textarea,
+    .bottom-section textarea {
+        margin-top: 50px;
+        font-size: 14px;
+    }
+
+    .upload-btn,
+    .analyze-btn {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .upload-btn {
+        font-size: 12px;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 10px 0;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-right {
+        margin-top: 10px;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #loading-container {
+        position: static;   /* Remove absolute positioning */
+        transform: none;    /* Remove transform, so it doesn't try to center itself */
+        top: auto; 
+        left: auto; 
+        margin-top: 10px;   /* Keep a small margin so it appears below the Analyze button */
+        text-align: center; /* Ensure text is centered */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        gap: 100px;
+    }
+
+    .header .header-button {
+        font-size: 11px;
+    }
+
+    .container-header .header-button {
+        font-size: 12px;
+    }
+
+    .section-header h3 {
+        font-size: 14px;
+    }
+
+    .section-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .footer-left,
+    .footer-right a {
+        font-size: 11px;
+    }
+}
 
   </style>
 </head>
@@ -369,13 +596,27 @@
             <a href="/login" class="header-button">Login</a>
             <a href="/signup" class="header-button">Sign Up</a>
         </div>
+
+        <!-- Hamburger Menu -->
+        <div class="hamburger-menu">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu">
+            <a href="/editor">Editor</a>
+            <a href="/login">Login</a>
+            <a href="/signup">Sign Up</a>
+        </div>
     </header>
 
   <div style="display: flex; flex-direction: column; align-items: center; width: 1500px; max-width: 1500px; padding: 0; margin-top: 100px; line-height: 1.6;">
       <!-- Description -->
       <div style="text-align: center; margin-bottom: 30px; margin-top: 50px; font-family: 'Montserrat', sans-serif; width: 70%;">
           <h1 style="font-size: 28px; margin: 0; font-weight: 700;">Elevate your grades effortlessly with Rubric AI</h1>
-          <p style="font-size: 16px; margin: 5px 0; color: #555; text-align: center; margin-top: 20px; margin-bottom: 50px;">
+          <p style="font-size: 16px; margin: 5px 0; color: #555; text-align: center; margin-top: 20px; margin-bottom: 20px;">
               Simplify your assignment grading and analysis with Rubric AI, the ultimate tool for students. Rubric AI evaluates essays, reports, and paragraphs based on your rubric, providing detailed feedback and enhanced versions to help you improve. With support for PDFs, images, and text, it's the smarter way to refine your work and achieve better results.
           </p>
       </div>
@@ -456,9 +697,16 @@
           </div>
       </div>
 
+      <!-- Output Container -->
+    <div class="output-container" id="output-container" style="display: none;">
+        <div id="output-content">
+            <!-- Dynamic Output Will Appear Here -->
+        </div>
+    </div>
+
 
       <!-- Lower Description -->
-      <div style="width: 1200px; max-width: 90%; margin: 120px auto 0; font-family: 'Montserrat', sans-serif; text-align: left; line-height: 1.6;">
+      <div style="width: 1200px; max-width: 90%; margin: 60px auto 0; font-family: 'Montserrat', sans-serif; text-align: left; line-height: 1.6;">
         <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 10px;">Introducing Rubric AI: Your Essential Grading and Feedback Tool for Students</h2>
         <p>Rubric AI is here to revolutionize how students analyze their assignments, essays, and reports. With a focus on education and student success, this powerful platform simplifies feedback and grading while providing tools to help you improve and excel.</p>
         
@@ -548,117 +796,117 @@
 
   </div>
   
-    
-    
-
     <script>
-      // Variables to store outputs for each mode
-      let feedbackOutput = ""; // Store Feedback mode output
-      let perfectScoreOutput = ""; // Store Perfect Score mode output
+        // Variables to store outputs for each mode
+        let feedbackOutput = ""; // Store Feedback mode output
+        let perfectScoreOutput = ""; // Store Perfect Score mode output
 
-      async function analyzeContent() {
-          console.log("Analyze button clicked"); // Debug log
-          const assignment = document.getElementById('assignment-input').value;
-          const rubric = document.getElementById('rubric-input').value;
+        async function analyzeContent() {
+            console.log("Analyze button clicked"); // Debug log
+            const assignment = document.getElementById("assignment-input").value;
+            const rubric = document.getElementById("rubric-input").value;
 
-          if (!assignment || !rubric) {
-              alert("Please fill in both the assignment and rubric fields.");
-              console.warn("Missing assignment or rubric input"); // Debug log
-              return;
-          }
+            if (!assignment || !rubric) {
+                alert("Please fill in both the assignment and rubric fields.");
+                console.warn("Missing assignment or rubric input"); // Debug log
+                return;
+            }
 
-          const outputSection = document.getElementById('output-section');
-          const loadingContainer = ensureLoadingContainer();
-          const progressBar = document.getElementById('progress-bar');
-          const loadingText = document.getElementById('loading-text');
+            const outputSection = document.getElementById("output-section");
+            const loadingContainer = ensureLoadingContainer();
+            const progressBar = document.getElementById("progress-bar");
+            const loadingText = document.getElementById("loading-text");
 
-          if (!loadingContainer || !progressBar || !loadingText) {
-              console.error("Loading container elements not found in the DOM!");
-              return;
-          }
+            if (!outputSection || !loadingContainer || !progressBar || !loadingText) {
+                console.error("Required DOM elements not found!");
+                return;
+            }
 
-          // Clear all output except the loading container
-          Array.from(outputSection.children).forEach((child) => {
-              if (child.id !== 'loading-container') {
-                  child.remove();
-              }
-          });
+            // Clear existing content except the loading container
+            Array.from(outputSection.children).forEach(child => {
+                if (child.id !== 'loading-container') {
+                    child.remove();
+                }
+            });
 
-          // Reset and show loading bar
-          loadingContainer.style.display = 'block';
-          progressBar.style.width = '0%';
-          loadingText.textContent = 'Analyzing... 0%';
+            // Reset and show loading bar
+            loadingContainer.style.display = "block";
+            progressBar.style.width = "0%";
+            loadingText.textContent = "Analyzing... 0%";
 
-          let progress = 0;
-          const interval = setInterval(() => {
-              if (progress < 90) {
-                  progress += 10;
-                  progressBar.style.width = `${progress}%`;
-                  loadingText.textContent = `Analyzing... ${progress}%`;
-              } else {
-                  clearInterval(interval);
-              }
-          }, 300); // Update every 300ms
+            let progress = 0;
+            const interval = setInterval(() => {
+                if (progress < 90) {
+                    progress += 10;
+                    progressBar.style.width = `${progress}%`;
+                    loadingText.textContent = `Analyzing... ${progress}%`;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 300); // Update every 300ms
 
-          try {
-              const response = await fetch('/analyze', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ assignment, rubric, mode: currentMode }),
-              });
+            try {
+                const response = await fetch("/analyze", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ assignment, rubric, mode: currentMode }),
+                });
 
-              const result = await response.json();
+                const result = await response.json();
 
-              progressBar.style.width = '100%';
-              loadingText.textContent = 'Complete! 100%';
-              setTimeout(() => {
-                  loadingContainer.style.display = 'none';
-              }, 1000);
+                progressBar.style.width = "100%";
+                loadingText.textContent = "Complete! 100%";
+                setTimeout(() => {
+                    loadingContainer.style.display = "none";
+                }, 1000);
 
-              if (result.error) {
-                  console.error("Error received from server:", result.error); // Debug log
-                  const errorOutput = document.createElement('p');
-                  errorOutput.textContent = `Error: ${result.error}`;
-                  outputSection.appendChild(errorOutput);
+                let outputHTML;
+                if (result.error) {
+                    console.error("Error received from server:", result.error); // Debug log
+                    outputHTML = `<p style="color: red;">Error: ${result.error}</p>`;
+                    if (currentMode === "Feedback") {
+                        feedbackOutput = outputHTML;
+                    } else {
+                        perfectScoreOutput = outputHTML;
+                    }
+                } else {
+                    console.log("Analysis result received:", result); // Debug log
+                    outputHTML = `<div>${result.output}</div>`;
+                    if (currentMode === "Feedback") {
+                        feedbackOutput = result.output;
+                    } else {
+                        perfectScoreOutput = result.output;
+                    }
+                }
 
-                  // Save the error output for the current mode
-                  if (currentMode === 'Feedback') {
-                      feedbackOutput = `<p>Error: ${result.error}</p>`;
-                  } else {
-                      perfectScoreOutput = `<p>Error: ${result.error}</p>`;
-                  }
-              } else {
-                  console.log("Analysis result received:", result); // Debug log
-                  const resultOutput = document.createElement('div');
-                  resultOutput.innerHTML = result.output;
-                  outputSection.appendChild(resultOutput);
+                // Insert the new output directly into the right-content section
+                const resultDiv = document.createElement('div');
+                resultDiv.innerHTML = outputHTML;
+                outputSection.appendChild(resultDiv);
 
-                  // Save the result output for the current mode
-                  if (currentMode === 'Feedback') {
-                      feedbackOutput = result.output;
-                  } else {
-                      perfectScoreOutput = result.output;
-                  }
-              }
-          } catch (error) {
-              console.error("Error during analysis:", error); // Debug log
-              const errorOutput = document.createElement('p');
-              errorOutput.textContent = "An error occurred during analysis.";
-              outputSection.appendChild(errorOutput);
+            } catch (error) {
+                console.error("Error during analysis:", error); // Debug log
+                const errorOutput = "<p style='color: red;'>An error occurred during analysis.</p>";
 
-              // Save the error output for the current mode
-              if (currentMode === 'Feedback') {
-                  feedbackOutput = "<p>An error occurred during analysis.</p>";
-              } else {
-                  perfectScoreOutput = "<p>An error occurred during analysis.</p>";
-              }
-          } finally {
-              clearInterval(interval);
-              setTimeout(() => {
-                  loadingContainer.style.display = 'none';
-              }, 500);
-          }
-      }
+                if (currentMode === "Feedback") {
+                    feedbackOutput = errorOutput;
+                } else {
+                    perfectScoreOutput = errorOutput;
+                }
+
+                // Insert error message
+                const resultDiv = document.createElement('div');
+                resultDiv.innerHTML = errorOutput;
+                outputSection.appendChild(resultDiv);
+            } finally {
+                clearInterval(interval);
+                setTimeout(() => {
+                    loadingContainer.style.display = "none";
+                }, 500);
+            }
+        }
+
+
 
       function switchMode(mode) {
           console.log(`Switching to ${mode} mode`); // Debug log
@@ -891,6 +1139,60 @@
           }
       `;
       document.head.appendChild(style);
+
+      
+      // Hamburger Menu
+      document.addEventListener('DOMContentLoaded', () => {
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        if (hamburgerMenu && mobileMenu) {
+            hamburgerMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Toggle classes
+                mobileMenu.classList.toggle('active');
+                hamburgerMenu.classList.toggle('menu-open');
+            });
+
+            // Close menu when a link is clicked
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    hamburgerMenu.classList.remove('menu-open');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (mobileMenu.classList.contains('active') && 
+                    !mobileMenu.contains(e.target) && 
+                    !hamburgerMenu.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                    hamburgerMenu.classList.remove('menu-open');
+                }
+            });
+        }
+    });
+
+    function displayOutput(outputContent) {
+        const rightContent = document.querySelector('.right-content');
+        
+        if (!rightContent) return;
+
+        // Clear previous content
+        rightContent.innerHTML = '';
+        
+        // Only show and populate if there's actual content
+        if (outputContent && outputContent.trim() !== '') {
+            rightContent.innerHTML = outputContent;
+            rightContent.style.display = 'block'; // Show the container
+        } else {
+            rightContent.style.display = 'none'; // Hide the container
+        }
+    }
+
   </script>
 </body>
 </html>
