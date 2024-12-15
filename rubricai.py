@@ -210,7 +210,7 @@ def forgot_password():
                 print("Token saved to database.")  # Debugging: Confirm token was saved to the database
 
                 # Construct the reset link
-                reset_link = f"http://localhost:5001/reset_password?token={token}"
+                reset_link = f"https://adaptable-learning-production.up.railway.app/reset_password?token={token}"
                 print(f"Generated reset link: {reset_link}")  # Debugging: Print the reset link
 
                 # Send the reset link via email
