@@ -166,6 +166,16 @@ def account():
     # Pass user data to the account template
     return render_template('account.html', email=session['user_email'])
 
+# Route for Terms and Conditions page
+@app.route('/terms-and-conditions')
+def terms_and_conditions():
+    return render_template('terms_and_conditions.html')
+
+# Route for Privacy Policy page
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy_policy.html')
+
 # Logout route
 @app.route('/logout', methods=['POST'])
 def logout():
