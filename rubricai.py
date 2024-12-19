@@ -32,6 +32,10 @@ def send_email(sender_email, recipient_email, subject, body):
         smtp_server = "smtp.gmail.com"
         smtp_port = 587
         app_password = os.getenv("SMTP_APP_PASSWORD")
+        if app_password:
+            app_password = app_password.replace('\xa0', ' ').strip()  # Remove non-breaking spaces and extra whitespace
+        else:
+            print("SMTP_APP_PASSWORD is not set or empty.")
 
         print(f"App password: {repr(app_password)}")
 
