@@ -226,7 +226,7 @@ def forgot_password():
                 # Send the reset link via email
                 subject = "Password Reset Request"
                 message = f"Click the link to reset your password: {reset_link}"
-                sender_email = "etac06@gmail.com"
+                sender_email = "careplanCTO@gmail.com"
                 send_email(sender_email, email, subject, message)
                 print("Reset link email sent.")  # Debugging: Confirm email was sent
 
