@@ -486,7 +486,7 @@ def analyze():
     
 
         response = openai.ChatCompletion.create(
-            model="gpt-4o-mini",
+            model="o1-mini",
             messages=[
                 {"role": "system", "content": "You are a teacher grading assignments fairly based on rubrics. You are also a great writer who can create perfect scoring assignments based off of rubrics"},
                 {"role": "user", "content": prompt},
