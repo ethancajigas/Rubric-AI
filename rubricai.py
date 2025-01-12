@@ -473,6 +473,7 @@ def analyze():
                 f" Expand and enhance each part of the assignment to provide depth and specificity, ensuring every criterion in the rubric is satisfied for a perfect score."
                 f" Exclude the student's original assignment and the rubric from your response."
                 f" Provide only the perfected version of the assignment formatted cleanly in valid HTML."
+                f" Ensure the output is formatted cleanly as valid HTML without any additional markers or code block wrappers.\n\n"
                 f" Double-check your response against the rubric to confirm it meets all criteria for a score of 90% or higher.\n\n"
                 f"Rubric:\n{rubric}\n\n"
                 f"Student's Work:\n{assignment}\n"
