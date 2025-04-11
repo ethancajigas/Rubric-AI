@@ -4,6 +4,4 @@ pytesseract
 pdf2image
 PyMuPDF
 Pillow
-psycopg2
-Werkzeug
 python-dotenv

@@ -1,22 +1,15 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for, flash, session
+from flask import Flask, request, jsonify, render_template
 import openai
 import os
 import pytesseract
 from pdf2image import convert_from_path
 import fitz  # PyMuPDF
 from PIL import Image
-import psycopg2
-from psycopg2 import sql
-from werkzeug.security import generate_password_hash, check_password_hash
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 
 load_dotenv()  # Load .env variables
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")  
 app.config['UPLOAD_FOLDER'] = 'uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
@@ -27,42 +20,6 @@ if not os.getenv("OPENAI_API_KEY"):
 # Strip any whitespace or newlines from the API key
 openai.api_key = os.getenv("OPENAI_API_KEY").strip()
 
-def get_db_connection():
-    db_url = os.getenv("DATABASE_URL")  # Retrieve DATABASE_URL from environment variables
-    return psycopg2.connect(db_url)
-
-
-def send_email(sender_email, recipient_email, subject, body):
-    try:
-        smtp_server = "smtp.gmail.com"
-        smtp_port = 587
-        app_password = os.getenv("SMTP_APP_PASSWORD")
-        if app_password:
-            app_password = app_password.replace('\xa0', ' ').strip()  # Remove non-breaking spaces and extra whitespace
-        else:
-            print("SMTP_APP_PASSWORD is not set or empty.")
-
-        print(f"App password: {repr(app_password)}")
-
-        msg = MIMEMultipart()
-        msg['From'] = sender_email
-        msg['To'] = recipient_email
-        msg['Subject'] = subject
-
-        body_text = MIMEText(body, 'plain', 'utf-8')
-        msg.attach(body_text)
-
-        with smtplib.SMTP(smtp_server, smtp_port) as server:
-            server.starttls()
-            server.login(sender_email, app_password)
-            server.send_message(msg)
-            print("Email sent successfully!")
-    except Exception as e:
-        print(f"Failed to send email: {e}")
-
-
-
-
 # -----------
 # PAGE ROUTES
 # -----------
@@ -70,271 +27,11 @@ def send_email(sender_email, recipient_email, subject, body):
 # Home route
 @app.route('/')
 def home():
-    # Redirect to the editor (decides based on login state)
-    return redirect(url_for('editor'))
-
-# Editor route (dynamic based on login state)
-@app.route('/editor')
-def editor():
-    # Check if the user is logged in
-    if 'user_email' in session:
-        # Logged-in users get the personalized editor
-        return render_template('rubricai_user.html')
-    else:
-        # Guests see the general rubric editor
-        return render_template('rubricai.html')
-
-# Sign up route
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
-
-        if password != confirm_password:
-            flash("Passwords do not match. Please try again.", "error")
-            return redirect(url_for('signup'))
-
-        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-
-        try:
-            conn = get_db_connection()
-            cur = conn.cursor()
-
-            # Check if the email already exists
-            cur.execute("SELECT email_address FROM users WHERE email_address = %s", (email,))
-            user = cur.fetchone()
-            if user:
-                flash("Email already exists. Please log in.", "error")
-                return redirect(url_for('signup'))
-
-            # Insert the new user
-            cur.execute(
-                "INSERT INTO users (email_address, password) VALUES (%s, %s)",
-                (email, hashed_password)
-            )
-            conn.commit()
-            cur.close()
-            conn.close()
-
-            flash("Signup successful! Please log in.", "success")
-            return redirect(url_for('login'))
-        except Exception as e:
-            flash("An error occurred. Please try again later.", "error")
-            return redirect(url_for('signup'))
-
-    return render_template('signup.html')
-
-# Login route
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-
-        try:
-            conn = get_db_connection()
-            cur = conn.cursor()
-
-            # Check if the user exists
-            cur.execute("SELECT password FROM users WHERE email_address = %s", (email,))
-            user = cur.fetchone()
-            cur.close()
-            conn.close()
-
-            if user and check_password_hash(user[0], password):
-                session['user_email'] = email  # Store user email in session
-                flash("Login successful!", "success")
-                return redirect(url_for('editor'))
-            else:
-                flash("Invalid email or password. Please try again.", "error")
-                return redirect(url_for('login'))
-        except Exception as e:
-            flash("An error occurred. Please try again later.", "error")
-            return redirect(url_for('login'))
-
-    return render_template('login.html')
-
-# User editor route (for direct access)
-@app.route('/user_editor')
-def user_editor():
-    if 'user_email' not in session:
-        flash("Please log in to access the editor.", "error")
-        return redirect(url_for('login'))
-
-    return render_template('rubricai_user.html')
-
-
-@app.route('/account')
-def account():
-    if 'user_email' not in session:
-        flash("Please log in to access your account.", "error")
-        return redirect(url_for('login'))
-    
-    # Pass user data to the account template
-    return render_template('account.html', email=session['user_email'])
-
-# Route for Terms and Conditions page
-@app.route('/terms-and-conditions')
-def terms_and_conditions():
-    return render_template('terms_and_conditions.html')
-
-# Route for Privacy Policy page
-@app.route('/privacy-policy')
-def privacy_policy():
-    return render_template('privacy_policy.html')
-
-# Logout route
-@app.route('/logout', methods=['POST'])
-def logout():
-    # Remove the user's email from the session
-    session.pop('user_email', None)
-    flash("You have been logged out.", "success")
-    return redirect(url_for('editor'))
-
-# ---------------
-# FORGOT PASSWORD 
-# ---------------
-
-@app.route('/forgot_password', methods=['GET', 'POST'])
-def forgot_password():
-    if request.method == 'POST':
-        email = request.form.get('email')  # Get the email from the form
-        print(f"Email received: {email}")  # Debugging: Print the email received
-
-        try:
-            conn = get_db_connection()
-            cur = conn.cursor()
-
-            # Check if the email exists in the database
-            cur.execute("SELECT email_address FROM users WHERE email_address = %s", (email,))
-            user = cur.fetchone()
-            print(f"Database query result for email '{email}': {user}")  # Debugging: Print the database query result
-
-            if user:
-                # Generate a secure token
-                token = os.urandom(16).hex()
-                print(f"Generated token: {token}")  # Debugging: Print the generated token
-
-                # Insert the token into the password_resets table
-                cur.execute(
-                    """
-                    INSERT INTO password_resets (email_address, token, expires_at) 
-                    VALUES (%s, %s, NOW() + interval '1 hour')
-                    """,
-                    (email, token)
-                )
-                conn.commit()
-                print("Token saved to database.")  # Debugging: Confirm token was saved to the database
-
-                # Construct the reset link
-                reset_link = f"https://adaptable-learning-production.up.railway.app/reset_password?token={token}"
-                print(f"Generated reset link: {reset_link}")  # Debugging: Print the reset link
-
-                # Send the reset link via email
-                subject = "Password Reset Request"
-                message = f"Click the link to reset your password: {reset_link}"
-                sender_email = "careplanCTO@gmail.com"
-                send_email(sender_email, email, subject, message)
-                print("Reset link email sent.")  # Debugging: Confirm email was sent
-
-                flash("A password reset link has been sent to your email.", "info")
-            else:
-                print(f"No account found for email: {email}")  # Debugging: Email not found in the database
-                flash("No account found with that email address.", "error")
-
-            cur.close()
-            conn.close()
-
-        except Exception as e:
-            print(f"Error in forgot_password route: {e}")  # Debugging: Print the exception
-            flash("An error occurred while processing your request. Please try again.", "error")
-
-    return render_template('forgot_password.html')
-
-
-@app.route('/reset_password', methods=['GET', 'POST'])
-def reset_password():
-    # Extract the token from the query string
-    token = request.args.get('token')
-    print(f"[DEBUG] Token received: {token}")
-
-    # Check if token is missing
-    if not token:
-        print("[DEBUG] Missing token")
-        return "Access denied: Missing token.", 403
-
-    # GET request: Render the reset_password form
-    if request.method == 'GET':
-        try:
-            print("[DEBUG] Rendering reset_password.html...")
-            return render_template('reset_password.html', token=token)
-        except Exception as e:
-            print(f"[DEBUG] Error rendering template: {e}")
-            return f"Error rendering page: {e}", 500
-
-    # POST request: Process the reset form
-    elif request.method == 'POST':
-        print("[DEBUG] Processing POST request for password reset...")
-        new_password = request.form.get('new_password')
-        confirm_password = request.form.get('confirm_password')
-
-        if not new_password or not confirm_password:
-            print("[DEBUG] Missing password fields")
-            return "Both password fields are required.", 400
-
-        if new_password != confirm_password:
-            print("[DEBUG] Passwords do not match")
-            flash("Passwords do not match.", "error")
-            return redirect(request.url)
-
-        # Verify the token and update the password
-        try:
-            conn = get_db_connection()
-            cur = conn.cursor()
-
-            # Validate the token in the database
-            cur.execute(
-                "SELECT email_address FROM password_resets WHERE token = %s AND expires_at > NOW()", 
-                (token,)
-            )
-            user = cur.fetchone()
-            print(f"[DEBUG] User fetched for token: {user}")
-
-            if not user:
-                print("[DEBUG] Invalid or expired token")
-                return "Access denied: Invalid or expired token.", 403
-
-            # Hash the new password and update the database
-            hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
-            cur.execute(
-                "UPDATE users SET password = %s WHERE email_address = %s", 
-                (hashed_password, user[0])
-            )
-            conn.commit()
-
-            # Delete the used token
-            cur.execute("DELETE FROM password_resets WHERE token = %s", (token,))
-            conn.commit()
-
-            print("[DEBUG] Password reset successful")
-            flash("Your password has been reset successfully!", "success")
-            return redirect(url_for('login'))
-
-        except Exception as e:
-            print(f"[DEBUG] Error during password reset: {e}")
-            return f"An error occurred: {e}", 500
-
-    # If somehow neither GET nor POST is handled, return a generic error
-    print("[DEBUG] Unsupported request method")
-    return "Method not allowed.", 405
-
+    return render_template('rubricai.html')
 
 # -----------------------
 # RUBRIC AI FUNCTIONALITY
 # -----------------------
-
 
 # Helper: Extract text from an image using OCR
 def extract_text_from_image(image_path):
@@ -399,7 +96,7 @@ def analyze():
         rubric = data.get("rubric", "")
         mode = data.get("mode", "Feedback")
 
-        print(f"Mode recieved {mode}")
+        print(f"Mode received {mode}")
 
         if not assignment or not rubric:
             return jsonify({"error": "Both assignment and rubric are required."}), 400
@@ -415,7 +112,6 @@ def analyze():
 
         # Updated prompt to generate a table format
         if mode == "Feedback":
-
             prompt = (
                 f" Grade the following assignment based on the rubric provided. Provide feedback in an HTML table format."
                 f" Each row should include: Criterion, Points Earned/Max Points, and Feedback. After the table, summarize with:"
@@ -484,11 +180,8 @@ def analyze():
                 f"Student's Work:\n{assignment}\n"
             )
 
-
-
         else:
             return jsonify({"error": "Invalid mode specified."}), 400    
-    
 
         response = openai.ChatCompletion.create(
             model="gpt-4o-mini",
@@ -526,8 +219,6 @@ def analyze():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5001))  # Use Railway's PORT environment variable or default to 5001
