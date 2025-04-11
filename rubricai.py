@@ -20,6 +20,10 @@ app.secret_key = os.getenv("SECRET_KEY")
 app.config['UPLOAD_FOLDER'] = 'uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
+# Check if OpenAI API key is set in environment
+if not os.getenv("OPENAI_API_KEY"):
+    raise ValueError("OPENAI_API_KEY environment variable is not set. Please set it using: export OPENAI_API_KEY='your-api-key'")
+
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def get_db_connection():
