@@ -26,9 +26,15 @@
 
 4. Set up your OpenAI API key:
    ```bash
+   # Make sure there are no spaces or newlines in the API key
    export OPENAI_API_KEY='your-api-key'
    ```
    Replace 'your-api-key' with your actual OpenAI API key. You can get one from [OpenAI's website](https://platform.openai.com/api-keys).
+   
+   Important: When setting the API key, make sure to:
+   - Remove any spaces or newlines from the key
+   - Use single quotes around the key
+   - Don't include any extra characters
 
 5. Run the application:
    ```bash

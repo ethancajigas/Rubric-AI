@@ -24,7 +24,8 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 if not os.getenv("OPENAI_API_KEY"):
     raise ValueError("OPENAI_API_KEY environment variable is not set. Please set it using: export OPENAI_API_KEY='your-api-key'")
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Strip any whitespace or newlines from the API key
+openai.api_key = os.getenv("OPENAI_API_KEY").strip()
 
 def get_db_connection():
     db_url = os.getenv("DATABASE_URL")  # Retrieve DATABASE_URL from environment variables
