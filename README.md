@@ -4,7 +4,7 @@
 
 1. Clone the repository and navigate to it:
    ```bash
-   git clone https://github.com/yourusername/Rubric-AI.git
+   git clone https://github.com/ethancajigas/Rubric-AI.git
    cd Rubric-AI
    ```
 
