@@ -11,17 +11,17 @@
 2. Create and activate a virtual environment:
    ```bash
    # On macOS/Linux
-   python -m venv venv
+   python3 -m venv venv
    source venv/bin/activate
 
    # On Windows
-   python -m venv venv
+   python3 -m venv venv
    .\venv\Scripts\activate
    ```
 
 3. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   pip3 install -r requirements.txt
    ```
 
 4. Set up your OpenAI API key:
@@ -32,7 +32,7 @@
 
 5. Run the application:
    ```bash
-   python rubricai.py
+   python3 rubricai.py
    ```
 
 Note: You'll need to set the OPENAI_API_KEY environment variable each time you open a new terminal. To make it permanent, you can add the export command to your shell's configuration file (e.g., ~/.bashrc, ~/.zshrc).
